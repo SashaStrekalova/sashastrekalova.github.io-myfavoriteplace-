@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Любимые места Саши Стрекаловой</title>
+    <style>
+        /* === Общие стили === */
+        :root {
+            --primary-color: #3a0ca3; /* Темно-синий/фиолетовый */
+            --secondary-color: #f72585; /* Яркий розовый */
+            --accent-color: #4cc9f0; /* Голубой */
+            --text-color-dark: #333;
+            --text-color-light: #f8f8f8;
+            --background-light: #f4f7f6;
+            --card-background-light: #ffffff;
+            --hover-button-light: #e0e0e0;
+            --shadow-light: rgba(0, 0, 0, 0.1);
+            --scroll-behavior: smooth; /* Для плавной прокрутки */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-light);
+            color: var(--text-color-dark);
+            line-height: 1.6;
+            overflow-x: hidden; /* Предотвращаем горизонтальную прокрутку */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-top: 20px;
+        }
+
+        h2 {
+            font-size: 2em;
+        }
+
+        h3 {
+            font-size: 1.5em;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        /* === Шапка === */
+        header {
+            background-color: #ffffff;
+            color: var(--primary-color);
+            padding: 20px 0;
+            box-shadow: 0 2px 5px var(--shadow-light);
+            position: sticky; /* Фиксируем шапку */
+            top: 0;
+            z-index: 1000; /* Чтобы шапка была поверх другого контента */
+            transition: all 0.3s ease-in-out;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8em;
+            text-align: left;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 25px;
+        }
+
+        nav ul li a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: color 0.3s ease-in-out;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        nav ul li a:hover {
+            color: var(--secondary-color);
+            background-color: var(--hover-button-light);
+        }
+
+        /* === Секция "О себе" === */
+        #about {
+            padding: 50px 0;
+            text-align: center;
+            background-color: var(--card-background-light);
+            border-radius: 10px;
+            margin-top: 30px;
+            box-shadow: 0 2px 10px var(--shadow-light);
+        }
+
+        #about p {
+            font-size: 1.1em;
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--text-color-dark);
+        }
+
+        /* === Блок с карточками городов === */
+        .cities-section {
+            padding: 60px 0;
+        }
+
+        .cities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .city-card {
+            background-color: var(--card-background-light);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px var(--shadow-light);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Размещаем контент и кнопку внизу */
+            opacity: 0; /* Начальное состояние для анимации появления */
+            transform: translateY(20px); /* Начальное смещение */
+        }
+
+        .city-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .city-card img {
+            width: 100%;
+            height: 250px; /* Фиксированная высота для изображений */
+            object-fit: cover; /* Обрезаем или растягиваем изображение, чтобы оно заполнило контейнер */
+            display: block; /* Убираем лишние отступы под изображением */
+        }
+
+        .city-card .card-content {
+            padding: 20px;
+            flex-grow: 1; /* Позволяет контенту растягиваться */
+        }
+
+        .city-card h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+            text-align: center;
+            font-size: 1.6em;
+            margin-bottom: 10px;
+        }
+
+        .city-card p {
+            font-size: 0.95em;
+            color: #555;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .city-card .details-button {
+            display: block;
+            width: calc(100% - 40px); /* Ширина кнопки с учетом padding */
+            margin: 0 20px 20px 20px; /* Отступ снизу карточки */
+            padding: 12px 20px;
+            background-color: var(--secondary-color);
+            color: var(--text-color-light);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1em;
+            text-align: center;
+            transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+        }
+
+        .city-card .details-button:hover {
+            background-color: #e01e6b; /* Более темный розовый при наведении */
+            transform: translateY(-2px);
+        }
+
+        /* === Блок контактов === */
+        .contacts-section {
+            background-color: var(--card-background-light);
+            padding: 50px 0;
+            text-align: center;
+            box-shadow: 0 -2px 10px var(--shadow-light);
+            margin-top: 40px;
+        }
+
+        .contacts-section h2 {
+            color: var(--primary-color);
+        }
+
+        .social-icons {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: var(--accent-color);
+            color: var(--text-color-light);
+            border-radius: 50%;
+            text-decoration: none;
+            font-size: 24px;
+            transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-icons a:hover {
+            background-color: #3da9d6; /* Более темный голубой при наведении */
+            transform: translateY(-3px);
+        }
+
+        /* === Стили для мобильных устройств === */
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            header h1 {
+                margin-bottom: 15px;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul li {
+                margin: 5px 0;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            .cities-grid {
+                grid-template-columns: 1fr; /* Один столбец на мобильных */
+            }
+
+            .city-card img {
+                height: 200px;
+            }
+
+            .city-card .card-content {
+                padding: 15px;
+            }
+
+            .city-card h3 {
+                font-size: 1.3em;
+            }
+
+            .city-card .details-button {
+                width: calc(100% - 30px);
+                margin: 0 15px 15px 15px;
+            }
+
+            .social-icons {
+                gap: 15px;
+            }
+
+            .social-icons a {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+        }
+
+        /* === Стиль для сообщения (alert) === */
+        /* Стили для alert в браузере по умолчанию, кастомные alert требуют JS */
+    </style>
+</head>
+<body>
+
+    <!-- === Шапка сайта === -->
+    <header>
+        <div class="container">
+            <h1>Мои любимые места в мире</h1>
+            <nav>
+                <ul>
+                    <!-- Навигация с якорными ссылками -->
+                    <li><a href="#tokyo">Токио</a></li>
+                    <li><a href="#new-york">Нью-Йорк</a></li>
+                    <li><a href="#los-angeles">Лос-Анджелес</a></li>
+                    <li><a href="#paris">Париж</a></li>
+                    <li><a href="#venice">Венеция</a></li>
+                    <li><a href="#sicily">Сицилия</a></li>
+                    <li><a href="#greece">Греция</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- === Секция "О себе" === -->
+    <section id="about" class="container">
+        <h2>Обо мне</h2>
+        <p>Я обожаю путешествия, новые впечатления и городскую эстетику. Эти места вдохновляют меня каждый день.</p>
+    </section>
+
+    <!-- === Секция городов === -->
+    <section class="cities-section container">
+        <h2>Мои любимые города</h2>
+        <div class="cities-grid">
+
+            <!-- Карточка города: Токио -->
+            <div class="city-card" id="tokyo">
+                <img src="https://yastatic.net/naydex/yandex-search/Opd12v238/fcab4dYu/Hyoazodq7bS8mjbGoM2PBvX04UL4lPKQ7JYvJRvEoKBZ9br3uh9oLFl1MxiTrsOVRrJriFKcx1wMxbtrXmZSSpzIiM3VWD5zftgFYKDNjwb19OFDOZZFk" alt="Вид на Токио">
+                <div class="card-content">
+                    <h3>Токио, Япония</h3>
+                    <p>Почему мне нравится: Удивительное сочетание ультрасовременности и древних традиций, неоновые огни и спокойные храмы.</p>
+                    <button class="details-button">Подробнее</button>
+                </div>
+            </div>
+
+            <!-- Карточка города: Нью-Йорк -->
+            <div class="city-card" id="new-york">
+                <img src="https://yastatic.net/naydex/yandex-search/Opd12v238/fcab4dYu/Hyoazodq7bS8mjbGoM2PBvX04UL4lPKQ7JYvJRvEoKBZ9br3uh9oLFl1Q0jTbqP1RrJriBLMZyx8ZZsrXmZSSpzIiM3VWD5zftgFYKDNjwb19OFDOZZFk" alt="Вид на Нью-Йорк">
+                <div class="card-content">
+                    <h3>Нью-Йорк, США</h3>
+                    <p>Почему мне нравится: Энергия, искусство, невероятное разнообразие культур и всегда что-то новое происходит.</p>
+                    <button class="details-button">Подробнее</button>
+                </div>
+            </div>
+
+            <!-- Карточка города: Лос-Анджелес -->
+            <div class="city-card" id="los-angeles">
+                <img src="https://yastatic.net/naydex/yandex-search/Opd12v340/fcab4dYu/Hyoazodq7bS8mjbGoM2PBvX04UL4lPKQ7JYvJRvEoKBZ9br3uh9oLFl1cwjzroP1t9OLuBLcx1x81et6imeD-n9IiS3Vae9yr2jlgNO8D_ZV5TQm-eTlk2" alt="Вид на Лос-Анджелес">
+                <div class="card-content">
+                    <h3>Лос-Анджелес, США</h3>
+                    <p>Почему мне нравится: Солнце, океан, голливудский блеск и расслабленная атмосфера Калифорнии.</p>
+                    <button class="details-button">Подробнее</button>
+                </div>
+            </div>
+
+            <!-- Карточка города: Париж -->
+            <div class="city-card" id="paris">
+                <img src="https://yastatic.net/naydex/yandex-search/Opd12v238/fcab4dYu/Hyoazodq7bS8mjbGoM2PBvX04UL4lPKQ7JYvJRvEoKBZ9br3uh9oLFl1A0jDrvPVVrJriELc51wMpWtbXmZSSpzIiM3VWD5zftgFYKDNjwb19OFDOZZFk" alt="Вид на Париж">
+                <div class="card-content">
+                    <h3>Париж, Франция</h3>
+                    <p>Почему мне нравится: Романтика, искусство, архитектура и неповторимый парижский шарм.</p>
+                    <button class="details-button">Подробнее</button>
+                </div>
+            </div>
+
+            <!-- Карточка города: Венеция -->
+            <div class="city-card" id="venice">
+                <img src="https://cdn.culture.ru/images/205b4d66-1e82-5d30-8dd8-5ed20b1bddd5" alt="Вид на Венецию">
+                <div class="card-content">
+                    <h3>Венеция, Италия</h3>
+                    <p>Почему мне нравится: Магия каналов, уникальная атмосфера и ощущение погружения в другой мир.</p>
+                    <button class="details-button">Подробнее</button>
+                </div>
+            </div>
+
+            <!-- Карточка города: Сицилийские острова -->
+            <div class="city-card" id="sicily">
+                <img src="https://i.pinimg.com/originals/d0/3e/fe/d03efe8b431312a1c707211482e82e75.jpg" alt="Вид на Сицилию">
+                <div class="card-content">
+                    <h3>Сицилийские острова, Италия</h3>
+                    <p>Почему мне нравится: Солнечные пейзажи, древняя история, вкусная еда и средиземноморское гостеприимство.</p>
+                    <button class="details-button">Подробнее</button>
+                </div>
+            </div>
+
+            <!-- Карточка города: Греция (Санторини) -->
+            <div class="city-card" id="greece">
+                <img src="https://sothebysrealty.gr/wp-content/uploads/2016/11/Santorini-sunset-at-dawn-Greece-Sothebys-International-Realty.jpg" alt="Вид на Санторини, Греция">
+                <div class="card-content">
+                    <h3>Греция (Санторини)</h3>
+                    <p>Почему мне нравится: Белоснежные дома, синие купола, закаты над Эгейским морем и неповторимая красота.</p>
+                    <button class="details-button">Подробнее</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- === Блок контактов === -->
+    <section class="contacts-section">
+        <div class="container">
+            <h2>Мои контакты</h2>
+            <div class="social-icons">
+                <!-- Иконка Telegram -->
+                <a href="#" id="telegram-link" aria-label="Telegram">
+                    <svg xmlns="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/1280px-Telegram_logo.svg.png">
+                        <path d="M446.7 78.6c4.3 5.1 7.5 11.3 9.4 17.9c1.9 6.6 2.7 13.8 2.7 21.1c0 8.3-.8 15.5-2.7 22.1c-1.9 6.6-5.1 12.8-9.4 18l-83.4 56.7l-96.6 27.4l-20.9-46.5l124.2-83.4zM105.3 78.6c-4.3 5.1-7.5 11.3-9.4 17.9c-1.9 6.6-2.7 13.8-2.7 21.1c0 8.3 .8 15.5 2.7 22.1c1.9 6.6 5.1 12.8 9.4 18l83.4 56.7l96.6 27.4l20.9-46.5l-124.2-83.4zM256 126.5l-70.5-47.4l-70.5 47.4c-4.3 5.1-7.5 11.3-9.4 17.9c-1.9 6.6-2.7 13.8-2.7 21.1c0 8.3 .8 15.5 2.7 22.1c1.9 6.6 5.1 12.8 9.4 18l70.5 47.4l70.5-47.4c4.3-5.1 7.5-11.3 9.4-17.9c1.9-6.6 2.7-13.8 2.7-21.1c0-8.3-.8-15.5-2.7-22.1c-1.9-6.6-5.1-12.8-9.4-18zM465.7 228.1l-124.2 83.4l20.9 46.5l96.6-27.4l83.4-56.7c4.3-5.1 7.5-11.3 9.4-17.9c1.9-6.6 2.7-13.8 2.7-21.1c0-8.3-.8-15.5-2.7-22.1c-1.9-6.6-5.1-12.8-9.4-18zM146.3 228.1l-83.4 56.7l-96.6 27.4l-20.9-46.5l124.2-83.4l70.5 47.4zm280.4 12.8c0 7.3-0.8 14.5-2.7 21.1c-1.9 6.6-5.1 12.8-9.4 18l-83.4 56.7l-96.6 27.4l-20.9-46.5l124.2-83.4l83.4-56.7c4.3-5.1 7.5-11.3 9.4-17.9c1.9-6.6 2.7-13.8 2.7-21.1s-.8-14.5-2.7-21.1c-1.9-6.6-5.1-12.8-9.4-18l-83.4-56.7l-96.6-27.4l-20.9-46.5l124.2-83.4l83.4-56.7c4.3-5.1 7.5-11.3 9.4-17.9c1.9-6.6 2.7-13.8 2.7-21.1c0-7.3-.8-14.5-2.7-21.1c-1.9-6.6-5.1-12.8-9.4-18l-83.4-56.7l-96.6-27.4l-20.9-46.5l124.2-83.4l83.4-56.7c4.3-5.1 7.5-11.3 9.4-17.9c1.9-6.6 2.7-13.8 2.7-21.1s-.8-14.5-2.7-21.1c-1.9-6.6-5.1-12.8-9.4-18l-83.4-56.7l-96.6-27.4l-20.9-46.5l124.2-83.4l83.4-56.7c4.3-5.1 7.5-11.3 9.4-17.9c1.9-6.6 2.7-13.8 2.7-21.1c0-8.3-.8-15.5-2.7-22.1c-1.9-6.6-5.1-12.8-9.4-18l-83.4-56.7l-96.6-27.4l-20.9-46.5l124.2-83.4l83.4-56.7c4.3-5.1 7.5-11.3 9.4-17.9c1.9-6.6 2.7-13.8 2.7-21.1c0-8.3-.8-15.5-2.7-22.1c-1.9-6.6-5.1-12.8-9.4-18l-83.4-56.7l-96.6-27.4l-20.9-46.5l124.2-83.4l83.4-56.7c4.3-5.1 7.5-11.3 9.4-17.9c1.9-6.6 2.7-13.8 2.7-21.1c0-8.3-.8-15.5-2.7-22.1c-1.9-6.6-5.1-12.8-9.4-18l-83.4-56.7l-96.6-27.4l-20.9-46.5l124.2-83.4l83.4-56.7c4.3-5.1 7.5-11.3 9.4-17.9c1.9-6.6 2.7-13.8 2.7-21.1c0-8.3-.8-15.5-2.7-22.1c-1.9-6.6-5.1-12.8-9.4-18l-83.4-56.7l-96.6-27.4l-20.9-46.5l124.2-83.4l83.4-56.7c4.3-5.1 7.5-11.3 9.4-17.9c1.9-6.6 2.7-13.8 2.7-21.1c0-8.3-.8-15.5-2.7-22.1c-1.9-6.6-5.1-12.8-9.4-18l-83.4-56.7l-96.6-27.4l-20.9-46.5l124.2-83.4l83.4-56.7c4.3-5.1 7.5-11.3 9.4-17.9c1.9-6.6 2.7-13.8 2.7-21.1c0-8.3-.8-15.5-2.7-22.1c-1.9-6.6-5.1-12.8-9.4-18z" />
+                    </svg>
+                </a>
+                <!-- Иконка ВКонтакте -->
+                <a href="#" id="vk-link" aria-label="ВКонтакте">
+                    <svg xmlns="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/VK.com-logo.svg/1280px-VK.com-logo.svg.png">
+                        <path d="M448 200.4V312C448 370.4 402.4 416 344 416H104C45.4 416 0 370.4 0 312V200.4C0 142.4 45.4 96 104 96H344C402.4 96 448 142.4 448 200.4zM104 128C87.5 128 72 143.5 72 160V352c0 16.5 14.5 32 32 32H376c16.5 0 32-14.5 32-32V160c0-16.5-14.5-32-32-32H104zM224 256a32 32 0 1 1 0 64 32 32 0 1 1 0-64zm80-128v256c0 16.5-14.5 32-32 32H144c-16.5 0-32-14.5-32-32V128c0-16.5 14.5-32 32-32h192c16.5 0 32 14.5 32 32z"/>
+                    </svg>
+                </a>
+                <!-- Иконка Email -->
+                <a href="#" id="email-link" aria-label="Email">
+                    <svg xmlns="https://media.istockphoto.com/id/1415175108/tr/vekt%C3%B6r/3d-e-mail-icon-vector-illustration.jpg?s=170667a&w=0&k=20&c=O_Bw0EwCMbk138L9dfVBraUA0LLCHggQlHdr_Tu5HPs=">
+                        <path d="M48 64C21.5 64 0 85.5 0 112V400c0 26.5 21.5 48 48 48H464c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zM464 112L313.4 247.3c-13.7 11.4-31.2 17.1-49.4 17.1s-35.7-5.7-49.4-17.1L48 112H464zM48 400V167.1L185.4 297.3c20.1 16.7 47.3 26.2 74.6 26.2s54.5-9.5 74.6-26.2L464 167.1V400H48z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- === JavaScript === -->
+    <script>
+        // Функция для плавного перемещения к элементу
+        function smoothScrollTo(targetId) {
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Обработчики кликов для навигационных ссылок
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault(); // Отменяем стандартное поведение ссылки
+                const targetId = this.getAttribute('href').substring(1); // Получаем ID без '#'
+                smoothScrollTo(targetId);
+            });
+        });
+
+        // Обработчики кликов для кнопок "Подробнее"
+        document.querySelectorAll('.details-button').forEach(button => {
+            button.addEventListener('click', function() {
+                alert('Я обожаю этот город за атмосферу и вдохновение!');
+            });
+        });
+
+        // Обработчики кликов для социальных иконок
+        document.getElementById('telegram-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Мой профиль: @sasha_strek');
+        });
+
+        document.getElementById('vk-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Мой профиль: @sasha_strek');
+        });
+
+        document.getElementById('email-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Моя почта: sasha@example.com');
+        });
+
+        // Анимация появления карточек при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.city-card');
+            let delay = 0;
+            cards.forEach(card => {
+                card.style.transition = `opacity 0.6s ease-out ${delay}ms, transform 0.6s ease-out ${delay}ms`;
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+                delay += 150; // Увеличиваем задержку для каждой следующей карточки
+            });
+        });
+    </script>
+
+</body>
+</html>
